@@ -1,18 +1,17 @@
-import Mesa from "../models/mesa";
+import Mesa, { IMesa } from "../models/mesa";
 
 
 export const getMesas = async(req: any, res: any) => {
 
    try {
-     const mesas = await Mesa.find()
-     console.log(typeof mesas);
-     
+     const mesas: IMesa[] = await Mesa.find()
+
      if(mesas.length === 0){
          return res.status(400).json({msg: "no existen mesas aun"})
         }
-        return res.status(200).json({mesas})
+
+        return res.status(200).json(mesas)
     } catch (error) {
-        console.log("error en las mesas", error);
         return res.status(400).json({msg: error})
     
    }
@@ -21,7 +20,7 @@ export const getMesas = async(req: any, res: any) => {
 export const createMesas = async(req: any, res: any ) => {
    
     try {
-     const mesa: string = req.body  
+     const mesa:IMesa[] = req.body  
 
      const findNumero = await Mesa.findOne({numero:  req.body.numero})
 
@@ -35,4 +34,46 @@ export const createMesas = async(req: any, res: any ) => {
    } catch (error) {
     return res.status(400).json(error)
    }
+}
+
+export const updateMesa = async (req: any, res: any) => {
+
+   try {
+      if (!req.params.id) {
+         return res.status(400).json({ error: 'ID is required' });
+      }
+   
+      
+      if(!req.body.numero){
+         return res.status(400).json({ msg: "Debe ingresar el numero de la mesa" });
+      }
+      
+      const mesa = await Mesa.findByIdAndUpdate(req.params.id, req.body, { new: true });
+      if (!mesa) {
+         return res.status(400).json({ msg: "No hay alguna mesa que actualizar" });
+      }
+      
+      await mesa.save();
+      return res.status(200).json(mesa);
+   } catch (error) {
+      return res.status(400).json({msg: error})
+   }
+};
+
+export const deleteMesa = async(req:any, res: any) =>{
+
+   try {
+      console.log(req.params.id);
+      
+      const mesa = await Mesa.findByIdAndDelete(req.params.id)
+      if(!mesa) {
+         return res.status(400).json({msg: "debe ingresar una mesa"})
+      }
+      console.log("eliminada");
+      
+      return res.status(200).json(mesa)
+   } catch (error) {
+      return res.status(400).json({msg: error})
+   }
+
 }

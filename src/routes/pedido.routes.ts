@@ -5,7 +5,9 @@ import passport from "passport";
 import { hasRoles } from "../middlewares/verifyRole";
 const router = Router()
 
-router.get("/pedidos",[passport.authenticate("jwt", { session: false }),hasRoles(["admin", "user", "moderador"]),],getPedido);
+// router.get("/pedidos",[passport.authenticate("jwt", { session: false }),hasRoles(["admin", "user", "moderador"]),],getPedido);
 
-router.post("/pedidos",createPedido)
+router.get("/pedidos",getPedido);
+router.post("/pedidos",createPedido);
+
 export default router;
