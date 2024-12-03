@@ -12,6 +12,11 @@ const pedidoSchema = new mongoose.Schema({
         ref : "mesas",
         required: true
     },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref : "User",
+        required: true
+    },
     descripcion:{
         type: String,
         requeried: true

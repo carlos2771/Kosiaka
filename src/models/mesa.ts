@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
 
-type proceso = {
-    estado: "En proceso" |"Listo" | "Cancelado" | "Pagado"
-
+export interface IMesa {
+    numero: string,
+    estado: boolean
 }
-const mesaSchema = new mongoose.Schema({
+
+const mesaSchema = new mongoose.Schema<IMesa>({
     numero:{
         type: String,
         unique: true,
@@ -17,6 +18,6 @@ const mesaSchema = new mongoose.Schema({
 })
 
 
-export default mongoose.model("Mesa",mesaSchema)
+export default mongoose.model<IMesa>("Mesa",mesaSchema)
 
 

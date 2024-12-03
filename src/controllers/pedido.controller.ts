@@ -3,8 +3,10 @@ import random from "../libs/codeRandom"
 import Mesa from "../models/mesa";
 export const getPedido = async(req: any, res: any) => {
     try {
-        const pedido = await Pedido.find(req.body)
-
+        const pedido = await Pedido.find().populate({path:"user", select: "username"})
+        if(!pedido){
+            return res.status(400).json({msg: "No existen pedidos aun"})
+        }
         return res.status(200).json(pedido)
 
     } catch (error) {
@@ -16,6 +18,7 @@ export const createPedido = async(req: any, res: any) => {
     try {
         const status : string[] = ["En proceso" , "Revisado" , "Listo" , "Cancelado", "Pagado"]
         const pedidoStatus: string = req.body.estado
+
         if(pedidoStatus){
             const validateState: boolean = status.includes(req.body.estado)
             if(!validateState){
@@ -27,9 +30,10 @@ export const createPedido = async(req: any, res: any) => {
         if(!disponivilityTable?.estado){
             return res.status(400).json({msg: "la mesa esta ocupada" })
         }
+
         const newPedido = new Pedido(req.body)
         if(newPedido){
-           await Mesa.findOneAndUpdate({_id: disponivilityTable.id, estado: false })
+            await Mesa.findByIdAndUpdate({ _id: disponivilityTable._id },{ $set: { estado: false } });
         }
         newPedido.codigo = random()
         await newPedido.save()
