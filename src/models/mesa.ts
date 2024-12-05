@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
 export interface IMesa {
-    numero: string,
-    estado: boolean
+    numero: string;
+    estado: boolean;
 }
 
 const mesaSchema = new mongoose.Schema<IMesa>({

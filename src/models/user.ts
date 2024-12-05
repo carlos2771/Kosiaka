@@ -5,7 +5,8 @@ export interface IUser extends Document {
   email: string;
   password: string;
   comparePassword: (password: string) => Promise<boolean>
-  roles: object[];
+  roles: object[],
+  estado: boolean
 };
 
 const userSchema = new Schema({
@@ -24,6 +25,10 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: true
+  },
+  estado: {
+    type: Boolean,
+    default: true
   },
   roles:[{
     ref: "Role", 

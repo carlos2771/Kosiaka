@@ -1,7 +1,20 @@
 import mongoose, { Schema } from "mongoose";
 
+interface IPedido {
+    codigo: string;
+    mesa: object;
+    user: object;
+    comida: object[];
+    descripcion: string;
+    estado: string;
+    metodoPago: string;
+    imagen: string;
+    totalPedido: number;
 
-const pedidoSchema = new mongoose.Schema({
+}
+
+
+const pedidoSchema = new mongoose.Schema<IPedido>({
 
     codigo:{
         type: String,
@@ -9,7 +22,7 @@ const pedidoSchema = new mongoose.Schema({
     },
     mesa: {
         type: Schema.Types.ObjectId,
-        ref : "mesas",
+        ref : "Mesa",
         required: true
     },
     user: {
@@ -17,6 +30,11 @@ const pedidoSchema = new mongoose.Schema({
         ref : "User",
         required: true
     },
+    comida: [{
+        type: Schema.Types.ObjectId,
+        ref : "Comida",
+        required: true
+    }],
     descripcion:{
         type: String,
         requeried: true
@@ -24,10 +42,23 @@ const pedidoSchema = new mongoose.Schema({
     estado:{
         type:String,
         default: "En proceso"
+    },
+    metodoPago:{
+        type: String,
+        required: true
+    },
+    imagen:{
+        type: String
+    },
+    totalPedido:{
+        type: Number,
+        // required: true
     }
+},{
+    timestamps: true
 })
 
-export default mongoose.model("Pedido", pedidoSchema);
+export default mongoose.model<IPedido>("Pedido", pedidoSchema);
 
 
 
