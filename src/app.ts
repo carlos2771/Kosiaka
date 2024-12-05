@@ -8,6 +8,8 @@ import specialRoutes from "./routes/special.routes"
 import { createRoles } from "./libs/initialSetup";
 import pedidoRoutes from "./routes/pedido.routes"
 import mesaRoutes from "./routes/mesas.routes"
+import comidasRoutes from "./routes/comida.routes"
+
 const app = express()
 createRoles()
 
@@ -29,5 +31,6 @@ app.use(mesaRoutes)
 app.use(authRoutes)
 app.use(specialRoutes)
 app.use(pedidoRoutes)
+app.use(comidasRoutes)
 
 export default app

@@ -17,6 +17,26 @@ export const getMesas = async(req: any, res: any) => {
    }
 }
 
+export const getMesa = async(req:any, res:any) => {
+  try {
+    if(!req.params){
+       return res.status(400).json({msg: "debe ingresar una mesa "})
+    }
+    const mesa  = await Mesa.findById({_id: req.params.id})
+    console.log("la MESA", mesa);
+    
+    if(!mesa){
+       return res.status(400).json({msg: "la mesa no existe"})
+    }
+ 
+    return res.status(200).json(mesa)
+  } catch (error) {
+   console.log(error);
+   res.status(400).json(error)
+   
+  }
+ }
+
 export const createMesas = async(req: any, res: any ) => {
    
     try {
