@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createPedido, getPedido } from "../controllers/pedido.controller";
+import { createPedido, getPedido, updatePedido } from "../controllers/pedido.controller";
 import { special } from "../controllers/special.controller";
 import passport from "passport";
 import { hasRoles } from "../middlewares/verifyRole";
@@ -9,5 +9,6 @@ const router = Router()
 
 router.get("/pedidos",getPedido);
 router.post("/pedidos",createPedido);
+router.put("/pedidos/:id",updatePedido);
 
 export default router;
